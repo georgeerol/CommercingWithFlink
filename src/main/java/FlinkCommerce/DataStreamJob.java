@@ -18,7 +18,7 @@ import org.apache.flink.connector.jdbc.JdbcSink;
 
 import java.sql.Date;
 
-import static utils.JsonUtil.convertTransactionToJson;
+import static FlinkCommerce.JsonUtil.convertTransactionToJson;
 
 public class DataStreamJob {
     private static final String jdbcUrl = "jdbc:postgresql://localhost:5432/postgres";
