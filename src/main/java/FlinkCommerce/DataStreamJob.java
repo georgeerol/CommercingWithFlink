@@ -18,7 +18,7 @@ import org.apache.flink.connector.jdbc.JdbcSink;
 
 import java.sql.Date;
 
-import static utils.JsonUtil.convertTransactionToJson;
+import static FlinkCommerce.JsonUtil.convertTransactionToJson;
 
 public class DataStreamJob {
     private static final String jdbcUrl = "jdbc:postgresql://localhost:5432/postgres";
@@ -251,9 +251,10 @@ public class DataStreamJob {
                                     .source(json, XContentType.JSON);
                             requestIndexer.add(indexRequest);
                         })
+                        .setBulkFlushMaxActions(2)         // Set maximum number of actions per bulk request
+                        .setBulkFlushInterval(1000L)
                         .build()
         ).name("Elasticsearch Sink");
-
         // Execute program, beginning computation.
         env.execute("Flink Ecommerce Realtime Streaming");
     }
