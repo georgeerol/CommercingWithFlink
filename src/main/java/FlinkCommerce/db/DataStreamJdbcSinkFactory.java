@@ -11,11 +11,11 @@ import org.apache.flink.streaming.api.datastream.DataStream;
 
 import java.sql.Date;
 
-public class JdbcSinkConfigurator<T> {
+public class DataStreamJdbcSinkFactory {
     private final JdbcExecutionOptions execOptions;
     private final JdbcConnectionOptions connOptions;
 
-    public JdbcSinkConfigurator(String jdbcUrl, String username, String password) {
+    public DataStreamJdbcSinkFactory(String jdbcUrl, String username, String password) {
         this.execOptions = new JdbcExecutionOptions.Builder()
                 .withBatchSize(1000)
                 .withBatchIntervalMs(200)

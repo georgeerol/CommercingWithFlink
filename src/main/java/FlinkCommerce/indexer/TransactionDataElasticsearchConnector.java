@@ -10,7 +10,7 @@ import org.apache.flink.streaming.api.datastream.DataStream;
 
 import static FlinkCommerce.util.JsonUtil.convertTransactionToJson;
 
-public class ElasticsearchSinkConfigurator {
+public class TransactionDataElasticsearchConnector {
 
     public static void createElasticsearchSink(
             String host,
