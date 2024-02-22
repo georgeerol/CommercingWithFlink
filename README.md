@@ -24,4 +24,4 @@ Follow these steps to set up the environment:
 
 ## Data from ElasticSearch and Kibana
 The image below showcases sample data visualizations from ElasticSearch and Kibana, illustrating the insights that can be derived from the processed transaction data:
-![data](imgs/data.PNG)
+![data](imgs/esData.PNG)
