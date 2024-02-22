@@ -1,4 +1,4 @@
-package FlinkCommerce;
+package FlinkCommerce.dto;
 
 import lombok.Data;
 
