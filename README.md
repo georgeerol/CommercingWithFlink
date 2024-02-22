@@ -8,7 +8,7 @@ The application efficiently processes financial transaction data from Kafka, exe
 - Docker Compose
 
 ## Architecture
-The architecture diagram below illustrates how the different components such as Apache Flink, Elasticsearch, and Postgres interact within this application:
+The architecture diagram below illustrates how the different components, such as Apache Flink, Elasticsearch, and Postgres, interact within this application:
 ![System Architecture.png](imgs/CommercingWithFlinkArchitecture.png)
 
 ## Installation and Setup
@@ -19,7 +19,7 @@ Follow these steps to set up the environment:
 4. **Generate Sales Transactions**: Run `main.py`, the Sales Transaction Generator, to feed sales transactions into Kafka.
 5. **Verify Container Status**: Check that all Docker containers are operational.
 6. **Initialize Flink Application**: Begin the Flink application through the `DataStreamJob` class in the `FlinkCommerce` package.
-7. **Data Storage in Flink**: Observe how Flink organizes transaction data and aggregated results in various tables like `transactions`, `sales_per_category`, `sales_per_day`, and `sales_per_month`.
+7. **Data Storage in Flink**: Observe how Flink organizes transaction data and aggregates results in tables like `transactions`, `sales_per_category`, `sales_per_day`, and `sales_per_month`.
 8. **Analysis with Elasticsearch and Kibana**: Understand the role of Flink in storing transaction data for subsequent analysis using Elasticsearch and Kibana.
 
 ## Data from ElasticSearch and Kibana
