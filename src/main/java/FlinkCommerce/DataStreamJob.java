@@ -10,11 +10,23 @@ import FlinkCommerce.db.JdbcSinkConfigurator;
 import FlinkCommerce.broker.KafkaSourceConfigurator;
 import FlinkCommerce.setup.StreamEnvironmentSetup;
 
+/**
+ * Main class for the DataStream job in FlinkCommerce.
+ * This class is responsible for setting up and executing the data stream processing pipeline
+ * that consumes financial transactions from Kafka, processes them, and then sinks the data to
+ * JDBC and Elasticsearch.
+ */
 public class DataStreamJob {
     private static final String JDBC_URL = "jdbc:postgresql://localhost:5432/postgres";
     private static final String USERNAME = "postgres";
     private static final String PASSWORD = "postgres";
 
+    /**
+     * The main method sets up and executes the Flink data stream processing job.
+     *
+     * @param args Command line arguments (not used).
+     * @throws Exception if there is an error in setting up or executing the Flink job.
+     */
     public static void main(String[] args) throws Exception {
         // Set up the execution environment
         StreamExecutionEnvironment env = StreamEnvironmentSetup.createEnvironment();
