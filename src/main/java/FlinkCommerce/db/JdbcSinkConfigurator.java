@@ -15,7 +15,7 @@ public class JdbcSinkConfigurator<T> {
     private final JdbcExecutionOptions execOptions;
     private final JdbcConnectionOptions connOptions;
 
-    public JdbcSinkConfigurator(String jdbcUrl, String username, String password,DataStream<Transaction>  transactionStream) {
+    public JdbcSinkConfigurator(String jdbcUrl, String username, String password) {
         this.execOptions = new JdbcExecutionOptions.Builder()
                 .withBatchSize(1000)
                 .withBatchIntervalMs(200)
@@ -29,6 +29,10 @@ public class JdbcSinkConfigurator<T> {
                 .withPassword(password)
                 .build();
 
+
+    }
+
+    public void createTransactionTableSink(DataStream<Transaction> transactionStream) {
         //create transactions table
         transactionStream.addSink(JdbcSink.sink(
                 "CREATE TABLE IF NOT EXISTS transactions (" +
@@ -51,7 +55,9 @@ public class JdbcSinkConfigurator<T> {
                 execOptions,
                 connOptions
         )).name("Create Transactions Table Sink");
+    }
 
+    public void createSalesPerCategoryTableSink(DataStream<Transaction> transactionStream) {
         //create sales_per_category table sink
         transactionStream.addSink(JdbcSink.sink(
                 "CREATE TABLE IF NOT EXISTS sales_per_category (" +
@@ -67,6 +73,9 @@ public class JdbcSinkConfigurator<T> {
                 connOptions
         )).name("Create Sales Per Category Table");
 
+    }
+
+    public void createSalesPerDayTableSink(DataStream<Transaction> transactionStream) {
         //create sales_per_day table sink
         transactionStream.addSink(JdbcSink.sink(
                 "CREATE TABLE IF NOT EXISTS sales_per_day (" +
@@ -80,6 +89,9 @@ public class JdbcSinkConfigurator<T> {
                 connOptions
         )).name("Create Sales Per Day Table");
 
+    }
+
+    public void createSalesPerMonthTableSink(DataStream<Transaction> transactionStream) {
         //create sales_per_month table sink
         transactionStream.addSink(JdbcSink.sink(
                 "CREATE TABLE IF NOT EXISTS sales_per_month (" +
@@ -94,6 +106,9 @@ public class JdbcSinkConfigurator<T> {
                 execOptions,
                 connOptions
         )).name("Create Sales Per Month Table");
+    }
+
+    public void insertIntoTransactionsTableSink(DataStream<Transaction> transactionStream) {
 
         transactionStream.addSink(JdbcSink.sink(
                 "INSERT INTO transactions(transaction_id, product_id, product_name, product_category, product_price, " +
@@ -129,7 +144,9 @@ public class JdbcSinkConfigurator<T> {
                 execOptions,
                 connOptions
         )).name("Insert into transactions table sink");
+    }
 
+    public void insertIntoSalesPerCategoryTableSink(DataStream<Transaction> transactionStream) {
         transactionStream.map(
                         transaction -> {
                             Date transactionDate = new Date(System.currentTimeMillis());
@@ -157,6 +174,10 @@ public class JdbcSinkConfigurator<T> {
                         connOptions
                 )).name("Insert into sales per category table");
 
+    }
+
+    public void insertIntoSalesPerDayTable(DataStream<Transaction> transactionStream) {
+
         transactionStream.map(
                         transaction -> {
                             Date transactionDate = new Date(System.currentTimeMillis());
@@ -181,6 +202,9 @@ public class JdbcSinkConfigurator<T> {
                         connOptions
                 )).name("Insert into sales per day table");
 
+    }
+
+    public void insertIntoSalesPerMonthTable(DataStream<Transaction> transactionStream) {
         transactionStream.map(
                         transaction -> {
                             Date transactionDate = new Date(System.currentTimeMillis());
@@ -208,12 +232,5 @@ public class JdbcSinkConfigurator<T> {
                         execOptions,
                         connOptions
                 )).name("Insert into sales per month table");
-
     }
-
-    public void createTransactionTableSink(DataStream<Transaction> transactionStream) {
-
-    }
-
-
 }

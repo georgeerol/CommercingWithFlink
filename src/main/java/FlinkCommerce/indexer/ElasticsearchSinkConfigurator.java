@@ -12,7 +12,7 @@ import static FlinkCommerce.util.JsonUtil.convertTransactionToJson;
 
 public class ElasticsearchSinkConfigurator {
 
-    public void createElasticsearchSink(
+    public static void createElasticsearchSink(
             String host,
             int port,
             String scheme,

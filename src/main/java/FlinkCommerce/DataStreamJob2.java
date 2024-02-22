@@ -17,24 +17,28 @@ public class DataStreamJob2 {
 
     public static void main(String[] args) throws Exception {
         // Set up the execution environment
-        StreamEnvironmentSetup environmentSetup = new StreamEnvironmentSetup();
-        StreamExecutionEnvironment env = environmentSetup.createEnvironment();
+        StreamExecutionEnvironment env = StreamEnvironmentSetup.createEnvironment();
 
         // Configure Kafka Source
-        KafkaSourceConfigurator sourceConfigurator = new KafkaSourceConfigurator();
-        KafkaSource<Transaction> source = sourceConfigurator.configureSource("localhost:9092", "financial_transactions", "flink-group");
-        DataStream<Transaction> transactionStream = env.fromSource(source, WatermarkStrategy.noWatermarks(), "Kafka source");
+        KafkaSource<Transaction> source = KafkaSourceConfigurator.configureSource(
+                "localhost:9092", "financial_transactions", "flink-group");
+        DataStream<Transaction> transactionStream = env.fromSource(
+                source, WatermarkStrategy.noWatermarks(), "Kafka source");
 
         // Configure JDBC Sinks
-        JdbcSinkConfigurator<Transaction> jdbcSinkConfigurator = new JdbcSinkConfigurator<>(JDBC_URL, USERNAME, PASSWORD, transactionStream);
+        JdbcSinkConfigurator jdbcSinkConfigurator = new JdbcSinkConfigurator(JDBC_URL, USERNAME, PASSWORD);
+        jdbcSinkConfigurator.createTransactionTableSink(transactionStream);
+        jdbcSinkConfigurator.createSalesPerCategoryTableSink(transactionStream);
+        jdbcSinkConfigurator.createSalesPerDayTableSink(transactionStream);
+        jdbcSinkConfigurator.createSalesPerMonthTableSink(transactionStream);
+        jdbcSinkConfigurator.insertIntoTransactionsTableSink(transactionStream);
+        jdbcSinkConfigurator.insertIntoSalesPerCategoryTableSink(transactionStream);
+        jdbcSinkConfigurator.insertIntoSalesPerDayTable(transactionStream);
+        jdbcSinkConfigurator.insertIntoSalesPerMonthTable(transactionStream);
 
-        String esHost = "localhost";
-        int esPort = 9200;
-        String esScheme = "http";
-        String esIndex = "transactions";
-        ElasticsearchSinkConfigurator elasticsearchSinkConfigurator = new ElasticsearchSinkConfigurator();
-        elasticsearchSinkConfigurator.createElasticsearchSink(esHost,esPort,esScheme,esIndex,transactionStream);
-
+        // Configure Elasticsearch Sink
+        ElasticsearchSinkConfigurator.createElasticsearchSink(
+                "localhost", 9200, "http", "transactions", transactionStream);
 
         // Execute the Flink job
         env.execute("Flink Ecommerce Realtime Streaming");
